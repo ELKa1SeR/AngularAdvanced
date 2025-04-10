@@ -1,0 +1,34 @@
+<div class="search-container">
+  <input [(ngModel)]="filter" (input)="onSearchChange()" placeholder="Buscar personajes por nombre" />
+
+  <select [(ngModel)]="statusFilter" (change)="onStatusChange()">
+    <option value="all">Todos</option>
+    <option value="alive">Vivos</option>
+    <option value="dead">Muertos</option>
+    <option value="unknown">Desconocido</option>
+  </select>
+
+  <input [(ngModel)]="episodeFilter" (input)="onEpisodeChange()" placeholder="Filtrar por episodio" />
+</div>
+
+<!-- Mostrar el total de resultados filtrados -->
+<div class="results-count">
+  <p>{{ totalCount }} personajes encontrados</p>
+</div>
+
+<div class="character-list">
+  <!-- Pasamos isAdmin y getStatusColor como inputs al CharacterCardComponent -->
+  <app-character-card
+    *ngFor="let character of filteredCharacters"
+    [character]="character"
+    [isAdmin]="isAdmin"
+    [getStatusColor]="getStatusColor">
+  </app-character-card>
+</div>
+
+<!-- Paginación -->
+<div class="pagination">
+  <button (click)="onPrevPage()" [disabled]="currentPage === 1">Página Anterior</button>
+  <span>{{ currentPage }} de {{ totalPages }}</span>
+  <button (click)="onNextPage()" [disabled]="currentPage === totalPages">Página Siguiente</button>
+</div>

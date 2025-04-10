@@ -1,0 +1,58 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CharacterService } from '../../../core/services/character.service';
+import { Character } from '../../../interface/character.interface';
+
+
+@Component({
+  selector: 'app-character-edit',
+  templateUrl: './character-edit.component.html',
+  styleUrls: ['./character-edit.component.scss']
+})
+export class CharacterEditComponent implements OnInit {
+  characterForm: FormGroup;
+  characterId: string = '';
+
+  constructor(
+    private fb: FormBuilder,
+    private characterService: CharacterService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.characterForm = this.fb.group({
+      name: ['', Validators.required],
+      species: ['', Validators.required],
+      status: ['', Validators.required],
+      image: ['', Validators.required],
+      episode: ['']
+    });
+  }
+
+  ngOnInit(): void {
+    this.characterId = this.route.snapshot.paramMap.get('id')!;
+    this.loadCharacterData();
+  }
+
+  loadCharacterData(): void {
+    this.characterService.getCharacterById((Number(this.characterId))).subscribe((character: Character) => {
+      this.characterForm.patchValue({
+        name: character.name,
+        species: character.species,
+        status: character.status,
+        image: character.image,
+        episode: character.episode.join(', ') // Puedes adaptar esto si lo necesitas
+      });
+    });
+  }
+
+  onSubmit(): void {
+    if (this.characterForm.valid) {
+      const updatedCharacter = this.characterForm.value;
+      this.characterService.updateCharacter(this.characterId, updatedCharacter).subscribe(() => {
+        this.router.navigate(['/characters']);  // Redirigir a la lista de personajes
+      });
+    }
+  }
+}
+

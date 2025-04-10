@@ -1,0 +1,30 @@
+.character-card {
+  padding: 20px;
+  border: 2px solid transparent;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.character-card img {
+  width: 100%;
+  height: auto;
+}
+
+.character-card button {
+  margin-top: 10px;
+}
+
+.character-card .alive {
+  background-color: green;
+  color: white;
+}
+
+.character-card .dead {
+  background-color: red;
+  color: white;
+}
+
+.character-card .unknown {
+  background-color: gray;
+  color: white;
+}

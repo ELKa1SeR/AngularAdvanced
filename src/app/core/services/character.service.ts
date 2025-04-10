@@ -1,0 +1,81 @@
+// character.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { environment } from '../../environment/environment';
+import { Filter } from '../../interface/filter.interface';
+import { Character } from '../../interface/character.interface';
+import { ApiResponse } from '../../interface/api-response.interface';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CharacterService {
+  private apiUrl = environment.apiBaseUrl + environment.endpoints.characters;
+  private localKey = 'customCharacters';
+
+  constructor(private http: HttpClient) {}
+
+  // 1. Obtener personajes de la API + locales
+  getCharacters(filters: Filter = { name: '', status: '', species: '', gender: '', page: 1 }): Observable<ApiResponse<Character>> {
+    let params = new HttpParams();
+
+    if (filters.name) params = params.set('name', filters.name);
+    if (filters.status) params = params.set('status', filters.status);
+    if (filters.species) params = params.set('species', filters.species);
+    if (filters.gender) params = params.set('gender', filters.gender);
+    if (filters.page) params = params.set('page', filters.page.toString());
+
+    return this.http.get<ApiResponse<Character>>(this.apiUrl, { params }).pipe(
+      map(apiData => {
+        const local = this.getLocalCharacters();
+        return {
+          info: apiData.info,
+          results: [...local, ...apiData.results] // local first
+        };
+      })
+    );
+  }
+
+  getCharacterById(id: number): Observable<Character> {
+    // Buscar primero en localStorage
+    const local = this.getLocalCharacters().find(c => c.id === id);
+    if (local) {
+      return new Observable<Character>(observer => {
+        observer.next(local);
+        observer.complete();
+      });
+    }
+
+    return this.http.get<Character>(`${this.apiUrl}/${id}`);
+  }
+
+  // 2. Crear personaje en localStorage
+  createCharacter(character: Character): void {
+    const customCharacters = this.getLocalCharacters();
+
+    character.id = Date.now(); // ID único simulado
+    customCharacters.push(character);
+
+    localStorage.setItem(this.localKey, JSON.stringify(customCharacters));
+  }
+
+  // 3. Eliminar personaje del localStorage
+  deleteCharacter(id: number): void {
+    const updated = this.getLocalCharacters().filter(char => char.id !== id);
+    localStorage.setItem(this.localKey, JSON.stringify(updated));
+  }
+
+  // 4. Obtener personajes guardados localmente
+  private getLocalCharacters(): Character[] {
+    const stored = localStorage.getItem(this.localKey);
+    return stored ? JSON.parse(stored) : [];
+  }
+
+
+  updateCharacter(id: string, character: Character): Observable<Character> {
+    return this.http.put<Character>(`${this.apiUrl}/${id}`, character);
+  }
+
+}

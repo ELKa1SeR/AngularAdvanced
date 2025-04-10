@@ -1,0 +1,9 @@
+@import url('../styles.scss');
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+router-outlet {
+  margin-top: 20px;
+}
