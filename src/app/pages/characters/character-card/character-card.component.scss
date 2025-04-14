@@ -3,11 +3,13 @@
   border: 2px solid transparent;
   text-align: center;
   transition: all 0.3s ease;
+  height: 460px;
+  align-content: center;
 }
 
 .character-card img {
   width: 100%;
-  height: auto;
+  height: 192px;
 }
 
 .character-card button {

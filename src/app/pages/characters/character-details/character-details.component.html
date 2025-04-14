@@ -4,6 +4,8 @@
   <p><strong>Especie:</strong> {{ character.species }}</p>
   <p><strong>Estado:</strong> {{ character.status }}</p>
   <p><strong>Primera aparición:</strong> {{ character.created | date: 'MMMM d, y' }}</p>
+  <p><strong>Episodios:</strong> {{ character.episode.length }}</p>
+  <p><strong>Ubicación:</strong> {{ character.location.name }}</p>
 
   <!-- Botones solo visibles para el ADMIN -->
   <div *ngIf="isAdmin">

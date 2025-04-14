@@ -13,32 +13,67 @@ import { CharacterService } from '../../../core/services/character.service';
 })
 export class CharacterCreateComponent {
   form: FormGroup;
-
+  imageError: string | null = null;
+  imageData: any = null;  // Variable para almacenar la imagen en base64
+  file: File | null = null;  // Para almacenar el archivo de imagen
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
-    private characterService: CharacterService,
+    private characterService: CharacterService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       status: ['', Validators.required],
       species: ['', Validators.required],
-      image: ['', Validators.required],
+      image: [null, Validators.required],
       episode: ['']
     });
   }
 
+  // Método para cancelar la creación de un personaje y regresar al listado
   cancel() {
     this.router.navigate(['/characters']);
   }
 
+  // Manejar la carga de archivos (imagen)
+  onFileChange(event: any) {
+    const file = event.target.files[0]; // Obtenemos el archivo seleccionado
+
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        if (file.size > 5 * 1024 * 1024) { // Limitar el tamaño del archivo a 5MB
+          this.imageError = 'La imagen no puede superar los 5MB.';
+          return;
+        }
+        // Si el archivo es una imagen válida, lo convertimos a base64
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imageData = reader.result;  // Esta es la URL base64 de la imagen
+          this.form.patchValue({ image: this.imageData });  // Asignamos la imagen al formulario
+        };
+        reader.readAsDataURL(file); // Leemos el archivo como una URL de datos
+        this.file = file;  // Guardamos el archivo en la variable file
+        this.imageError = null;  // Limpiamos cualquier error anterior
+      } else {
+        // Si el archivo no es una imagen, mostramos un error
+        this.imageError = 'Por favor, sube una imagen válida.';
+      }
+    }
+  }
+
+  // Método para guardar el personaje
   saveCharacter() {
+    if (this.form.invalid) {
+      // Si el formulario es inválido, no hacemos nada
+      return;
+    }
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'Create character',
-        message: `Are you sure you want to create "${this.form.value.name}"?`
+        title: 'Crear personaje',
+        message: `¿Estás seguro de que deseas crear el personaje "${this.form.value.name}"?`
       }
     });
 
@@ -47,13 +82,17 @@ export class CharacterCreateComponent {
         // Crear el nuevo personaje
         const newCharacter = this.form.value;
 
-        // Guardar el personaje en localStorage
+        // Aquí puedes agregar la lógica para manejar la imagen si es necesario
+        // Si tienes que subir la imagen al servidor, deberías hacerlo aquí.
+        // Ejemplo de cómo podrías enviar la imagen (si la estuvieras subiendo):
+        // this.characterService.createCharacter(newCharacter, this.file);
+
+        // Guardar el personaje (puedes usar localStorage o enviarlo a un backend)
         this.characterService.createCharacter(newCharacter);
 
-        // Puedes agregar un diálogo de éxito aquí si quieres
+        // Redirigir al listado de personajes
         this.router.navigate(['/characters']);
       }
     });
   }
 }
-

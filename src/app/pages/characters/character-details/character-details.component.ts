@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Character } from '../../../interface/character.interface';
 import { CancelDialogComponent } from '../../../shared/components/cancel-dialog/cancel-dialog.component';
 import { SuccessDialogComponent } from '../../../shared/components/success-dialog/success-dialog.component';
+import { Location } from '../../../interface/location.interface';
+import { Episode } from '../../../interface/episode.interface';
 
 
 @Component({
@@ -16,10 +18,14 @@ import { SuccessDialogComponent } from '../../../shared/components/success-dialo
 export class CharacterDetailComponent implements OnInit {
   character!: Character;
   isAdmin: boolean = false;
+  locations: Location[] = [];
+  episodes: Episode[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private characterService: CharacterService,
+    private locationService: CharacterService,
+    private episodeService: CharacterService,
     private router: Router,
     private dialog: MatDialog
   ) {}

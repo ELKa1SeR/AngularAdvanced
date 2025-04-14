@@ -1,4 +1,5 @@
 export interface Character {
+location: any;
   id: number;
   name: string;
   status: string;

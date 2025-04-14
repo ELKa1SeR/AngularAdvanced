@@ -1,18 +1,27 @@
 <div class="add-character-container">
   <h2>Añadir un Nuevo Personaje</h2>
   <form [formGroup]="form" (ngSubmit)="saveCharacter()">
+    <!-- Campo de nombre -->
     <label for="name">Nombre:</label>
     <input id="name" formControlName="name" />
     <div *ngIf="form.controls['name'].invalid && form.controls['name'].touched">
       El nombre es obligatorio.
     </div>
 
+    <!-- Campo de especie -->
     <label for="species">Especie:</label>
-    <input id="species" formControlName="species" />
+    <select id="species" formControlName="species">
+      <option value="Human">Humano</option>
+      <option value="Alien">Alien</option>
+      <option value="Humanoid">Desconocido</option>
+      <option value="Robot">Robot</option>
+    </select>
+
     <div *ngIf="form.controls['species'].invalid && form.controls['species'].touched">
       La especie es obligatoria.
     </div>
 
+    <!-- Campo de estado -->
     <label for="status">Estado:</label>
     <select id="status" formControlName="status">
       <option value="Alive">Vivo</option>
@@ -20,15 +29,32 @@
       <option value="unknown">Desconocido</option>
     </select>
 
-    <label for="image">Imagen URL:</label>
-    <input id="image" formControlName="image" />
+    <div *ngIf="form.controls['status'].invalid && form.controls['status'].touched">
+      El estado es obligatorio.
+    </div>
 
+    <!-- Campo de imagen (archivo) -->
+    <label for="image">Imagen:</label>
+    <input type="file" id="image" (change)="onFileChange($event)" />
+    <div *ngIf="imageError" style="color: red;">
+      {{ imageError }}
+    </div>
+
+    <!-- Vista previa de la imagen seleccionada -->
+    <div *ngIf="imageData">
+      <h3>Vista previa de la imagen:</h3>
+      <img [src]="imageData" alt="Vista previa de la imagen" width="200" />
+    </div>
+
+    <!-- Campo de episodios -->
     <label for="episode">Episodios:</label>
     <input id="episode" formControlName="episode" />
 
+    <!-- Botones de acción -->
     <button type="submit" [disabled]="form.invalid">Guardar Personaje</button>
     <button type="button" (click)="cancel()">Cancelar</button>
   </form>
 </div>
+
 
 

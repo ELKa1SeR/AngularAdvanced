@@ -10,6 +10,8 @@ import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CancelDialogComponent } from './components/cancel-dialog/cancel-dialog.component';
 import { SuccessDialogComponent } from './components/success-dialog/success-dialog.component';
+import { NoResultDialogComponent } from './components/no-result-dialog/no-result-dialog.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { SuccessDialogComponent } from './components/success-dialog/success-dial
     HeaderComponent,
     CancelDialogComponent,
     SuccessDialogComponent,
+    NoResultDialogComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
@@ -29,9 +33,11 @@ import { SuccessDialogComponent } from './components/success-dialog/success-dial
   ],
   exports: [
     LoadingSpinnerComponent,
+    NoResultDialogComponent,
     ConfirmDialogComponent,
     HighlightDirective,
     CapitalizePipe,
-    HeaderComponent,]
+    HeaderComponent,
+    FooterComponent,]
 })
 export class SharedModule {}

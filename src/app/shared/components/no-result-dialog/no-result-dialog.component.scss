@@ -1,0 +1,31 @@
+mat-dialog-title {
+  text-align: center;
+  font-size: 1.5em;
+  color: #ff3e00;  // Un color destacado para el título
+}
+
+mat-dialog-content {
+  text-align: center;
+  font-size: 1.2em;
+  color: #333;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  background-color: #ff3e00;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #d63400;
+  }
+}

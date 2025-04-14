@@ -4,6 +4,9 @@ import { CharacterService } from '../../../core/services/character.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Filter } from '../../../interface/filter.interface';
 import { ApiResponse } from '../../../interface/api-response.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { NoResultDialogComponent } from '../../../shared/components/no-result-dialog/no-result-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-character-list',
@@ -26,11 +29,14 @@ export class CharacterListComponent implements OnInit {
 
   constructor(
     private characterService: CharacterService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
+    console.log(this.isAdmin);
     this.loadCharacters();
   }
 
@@ -42,10 +48,20 @@ export class CharacterListComponent implements OnInit {
         episode: this.episodeFilter,
         page: this.currentPage
       })
-      .subscribe((data: any) => {
+      .subscribe((data: ApiResponse<Character>) => {
         this.characters = data.results; // Los personajes están en "results"
         this.totalCount = data.info.count; // Total de personajes disponibles
-        this.filteredCharacters = this.characters;
+
+        if (this.characters.length === 0) {
+          // Si no hay resultados, muestra el diálogo
+          console.log('No se encontraron personajes', this.characters.length);
+          this.showNoResultsDialog();
+        }
+
+        this.filteredCharacters = this.characters
+          .filter(character => character.name.toLowerCase().includes(this.filter.toLowerCase()))
+          .sort((a, b) => a.name.localeCompare(b.name)); // Ordenar alfabéticamente
+
         this.totalPages = Math.ceil(this.totalCount / this.itemsPerPage); // Calculamos el total de páginas
       });
   }
@@ -93,6 +109,21 @@ export class CharacterListComponent implements OnInit {
   onNextPage() {
     if (this.currentPage < this.totalPages) {
       this.onPageChange(this.currentPage + 1);
+    }
+  }
+
+  showNoResultsDialog() {
+    console.log('Abriendo diálogo de "No resultados"');
+    const dialogRef = this.dialog.open(NoResultDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Diálogo cerrado', result);
+    });
+  }
+
+  viewDetails(characterId: number) {
+    if (this.isAdmin) {
+      this.router.navigate([`/characters/${characterId}`]);
     }
   }
 }

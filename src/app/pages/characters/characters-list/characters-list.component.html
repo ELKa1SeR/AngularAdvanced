@@ -8,12 +8,22 @@
     <option value="unknown">Desconocido</option>
   </select>
 
+  <div class="status-colors" >
+    <span class="alive" value="alive">Vivo</span>
+    <span class="dead" value="dead">Muerto</span>
+    <span class="unknown" value="unknown">Desconocido</span>
+  </div>
+
+
   <input [(ngModel)]="episodeFilter" (input)="onEpisodeChange()" placeholder="Filtrar por episodio" />
 </div>
 
 <!-- Mostrar el total de resultados filtrados -->
 <div class="results-count">
-  <p>{{ totalCount }} personajes encontrados</p>
+  <p>{{ totalCount }} personajes encontrados, {{ filteredCharacters.length }} mostrados </p>
+
+  <!-- Colores de los estados -->
+
 </div>
 
 <div class="character-list">
