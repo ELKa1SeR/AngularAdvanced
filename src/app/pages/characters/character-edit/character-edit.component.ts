@@ -49,9 +49,10 @@ export class CharacterEditComponent implements OnInit {
   onSubmit(): void {
     if (this.characterForm.valid) {
       const updatedCharacter = this.characterForm.value;
-      this.characterService.updateCharacter(this.characterId, updatedCharacter).subscribe(() => {
-        this.router.navigate(['/characters']);  // Redirigir a la lista de personajes
-      });
+      this.characterService.updateCharacter(Number(this.characterId), updatedCharacter);
+
+      // Redirigir a la lista de personajes después de guardar
+      this.router.navigate(['/characters']);
     }
   }
 }

@@ -6,3 +6,4 @@
   <p>Primera aparición: {{ character.created | date: 'MMMM d, y' }}</p>
   <button *ngIf="isAdmin" routerLink="/characters/{{ character.id }}">Ver Detalle</button>
 </div>
+

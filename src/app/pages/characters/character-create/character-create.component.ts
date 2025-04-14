@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { CharacterService } from '../../../core/services/character.service';
 
 
 @Component({
@@ -13,10 +14,12 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 export class CharacterCreateComponent {
   form: FormGroup;
 
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private characterService: CharacterService,
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -41,10 +44,13 @@ export class CharacterCreateComponent {
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
-        // Simulate saving the character
+        // Crear el nuevo personaje
         const newCharacter = this.form.value;
-        console.log('Character saved:', newCharacter);
-        // You can integrate sessionStorage or any other service to save it
+
+        // Guardar el personaje en localStorage
+        this.characterService.createCharacter(newCharacter);
+
+        // Puedes agregar un diálogo de éxito aquí si quieres
         this.router.navigate(['/characters']);
       }
     });

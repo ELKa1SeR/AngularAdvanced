@@ -50,14 +50,12 @@ export class CharacterDetailComponent implements OnInit {
   }
 
   deleteCharacter(): void {
-    // Obtener el ID del personaje desde la URL
     const characterId = this.route.snapshot.paramMap.get('id');
 
-    // Verificar si el ID es válido y convertirlo a número
     if (characterId) {
-      const id = Number(characterId); // Convertir el ID a número
+      const id = Number(characterId);
       if (!isNaN(id)) {
-        // Llamar al servicio para eliminar el personaje
+        // Llamar al servicio para eliminar el personaje de localStorage
         this.characterService.deleteCharacter(id);
 
         // Redirigir a la lista de personajes después de eliminar

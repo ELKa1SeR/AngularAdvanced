@@ -54,10 +54,10 @@ export class CharacterService {
   // 2. Crear personaje en localStorage
   createCharacter(character: Character): void {
     const customCharacters = this.getLocalCharacters();
-
-    character.id = Date.now(); // ID único simulado
+    character.id = Date.now(); // Asignamos un ID único usando Date.now()
     customCharacters.push(character);
 
+    // Guardamos los personajes actualizados en localStorage
     localStorage.setItem(this.localKey, JSON.stringify(customCharacters));
   }
 
@@ -67,6 +67,7 @@ export class CharacterService {
     localStorage.setItem(this.localKey, JSON.stringify(updated));
   }
 
+
   // 4. Obtener personajes guardados localmente
   private getLocalCharacters(): Character[] {
     const stored = localStorage.getItem(this.localKey);
@@ -74,8 +75,14 @@ export class CharacterService {
   }
 
 
-  updateCharacter(id: string, character: Character): Observable<Character> {
-    return this.http.put<Character>(`${this.apiUrl}/${id}`, character);
+  updateCharacter(id: number, character: Character): void {
+    const updatedCharacter = this.getLocalCharacters().map(char =>
+      char.id === id ? { ...char, ...character } : char
+    );
+
+    // Guardamos los cambios en localStorage
+    localStorage.setItem(this.localKey, JSON.stringify(updatedCharacter));
   }
+
 
 }

@@ -4,21 +4,21 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private userRole: string | null = null;
+  
 
   login(role: string) {
-    this.userRole = role;
+    localStorage.setItem('role', role); // Guardamos el rol en el almacenamiento
   }
 
   getRole() {
-    return this.userRole;
+    return localStorage.getItem('role');
   }
 
   isAdmin() {
-    return this.userRole === 'ADMIN';
+    return this.getRole() === 'ADMIN';
   }
 
   isGuest() {
-    return this.userRole === 'GUEST';
+    return this.getRole() === 'GUEST';
   }
 }
