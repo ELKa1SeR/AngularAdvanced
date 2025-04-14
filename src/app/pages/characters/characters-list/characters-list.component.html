@@ -15,12 +15,18 @@
   </div>
 
 
-  <input [(ngModel)]="episodeFilter" (input)="onEpisodeChange()" placeholder="Filtrar por episodio" />
+  <select name="episodes" id="episodes" [(ngModel)]="episodeFilter" (change)="onEpisodeChange()">
+    <option value="0">Todos Los Episodios</option>
+    @for (episode of [].constructor(51); track $index) {
+      <option value="{{ $index + 1 }}">Episodio {{ $index + 1 }}</option>
+    }
+
+  </select>
 </div>
 
 <!-- Mostrar el total de resultados filtrados -->
 <div class="results-count">
-  <p>{{ totalCount }} personajes encontrados, {{ filteredCharacters.length }} mostrados </p>
+  <p>{{ totalCount }} personajes encontrados, {{ startIndex + 1 }}-{{ endIndex }} mostrados </p>
 
   <!-- Colores de los estados -->
 

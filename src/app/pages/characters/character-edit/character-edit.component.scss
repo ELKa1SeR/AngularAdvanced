@@ -1,3 +1,14 @@
+.character-edit {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(216, 13, 13, 0.1);
+}
+
 form {
   display: flex;
   flex-direction: column;

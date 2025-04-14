@@ -19,7 +19,7 @@ export class EpisodeService {
     return this.http.get<ApiResponse<Episode>>(this.apiUrl, { params });
   }
 
-  getEpisodeById(id: number): Observable<Episode> {
+  getEpisodeById(id: number[]): Observable<Episode> {
     return this.http.get<Episode>(`${this.apiUrl}/${id}`);
   }
 }

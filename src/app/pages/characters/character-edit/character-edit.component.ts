@@ -25,7 +25,9 @@ export class CharacterEditComponent implements OnInit {
       species: ['', Validators.required],
       status: ['', Validators.required],
       image: ['', Validators.required],
-      episode: ['']
+      episode: [[], Validators.required],
+      location: ['', Validators.required],
+      created: [null , Validators.required]
     });
   }
 
@@ -36,13 +38,18 @@ export class CharacterEditComponent implements OnInit {
 
   loadCharacterData(): void {
     this.characterService.getCharacterById((Number(this.characterId))).subscribe((character: Character) => {
+      console.log(character);
+
       this.characterForm.patchValue({
         name: character.name,
         species: character.species,
         status: character.status,
         image: character.image,
-        episode: character.episode.join(', ') // Puedes adaptar esto si lo necesitas
+        episode: character.episode.map(url => url.split('/').pop()!),
+        location: character.location.name,
+        created: new Date(character.created),
       });
+      console.log(this.characterForm.value);
     });
   }
 
@@ -55,5 +62,7 @@ export class CharacterEditComponent implements OnInit {
       this.router.navigate(['/characters']);
     }
   }
+
+
 }
 

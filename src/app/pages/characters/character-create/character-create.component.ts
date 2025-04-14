@@ -28,7 +28,9 @@ export class CharacterCreateComponent {
       status: ['', Validators.required],
       species: ['', Validators.required],
       image: [null, Validators.required],
-      episode: ['']
+      episode: [[], Validators.required],
+      location: ['', Validators.required],
+      created: ['', Validators.required]
     });
   }
 
@@ -81,18 +83,14 @@ export class CharacterCreateComponent {
       if (confirmed) {
         // Crear el nuevo personaje
         const newCharacter = this.form.value;
-
-        // Aquí puedes agregar la lógica para manejar la imagen si es necesario
-        // Si tienes que subir la imagen al servidor, deberías hacerlo aquí.
-        // Ejemplo de cómo podrías enviar la imagen (si la estuvieras subiendo):
-        // this.characterService.createCharacter(newCharacter, this.file);
-
+        const character = { ...newCharacter, location:{name:newCharacter.location}, id: Date.now() };
         // Guardar el personaje (puedes usar localStorage o enviarlo a un backend)
-        this.characterService.createCharacter(newCharacter);
+        this.characterService.createCharacter(character);
 
         // Redirigir al listado de personajes
         this.router.navigate(['/characters']);
       }
     });
   }
+
 }

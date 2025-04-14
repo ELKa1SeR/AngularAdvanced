@@ -1,7 +1,7 @@
 // character.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { Filter } from '../../interface/filter.interface';
 import { Character } from '../../interface/character.interface';
@@ -12,8 +12,9 @@ import { ApiResponse } from '../../interface/api-response.interface';
   providedIn: 'root'
 })
 export class CharacterService {
+
   private apiUrl = environment.apiBaseUrl + environment.endpoints.characters;
-  private localKey = 'customCharacters';
+  private localKey = 'allCharacters';
 
   constructor(private http: HttpClient) {}
 
@@ -38,6 +39,10 @@ export class CharacterService {
     );
   }
 
+  getCharacterByIds(characterIds: number[]) {
+    return this.http.get<Character[]>(`${this.apiUrl}/${characterIds.join(',')}`);
+  }
+
   getCharacterById(id: number): Observable<Character> {
     // Buscar primero en localStorage
     const local = this.getLocalCharacters().find(c => c.id === id);
@@ -54,7 +59,7 @@ export class CharacterService {
   // 2. Crear personaje en localStorage
   createCharacter(character: Character): void {
     const customCharacters = this.getLocalCharacters();
-    character.id = Date.now(); // Asignamos un ID único usando Date.now()
+    
     customCharacters.push(character);
 
     // Guardamos los personajes actualizados en localStorage
@@ -84,5 +89,13 @@ export class CharacterService {
     localStorage.setItem(this.localKey, JSON.stringify(updatedCharacter));
   }
 
+  getAllCharacters(): Observable<any[]> {
+    const requests: Observable<any>[] = [];
 
+    for (let i = 1; i <= 42; i++) {
+      requests.push(this.http.get(`${this.apiUrl}/?page=${i}`));
+    }
+
+    return forkJoin(requests); // Devuelve un array con la respuesta de cada página
+  }
 }

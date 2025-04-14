@@ -47,8 +47,33 @@
     </div>
 
     <!-- Campo de episodios -->
-    <label for="episode">Episodios:</label>
-    <input id="episode" formControlName="episode" />
+    <mat-form-field appearance="fill">
+      <mat-label>Selecciona episodios</mat-label>
+      <mat-select formControlName="episode" multiple>
+        <mat-option *ngFor="let episode of [].constructor(51); let i = index" value="{{i+1}}">
+
+            Episodio {{ i+1 }}
+
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <label for="location">Localizacion:</label>
+    <input id="location" formControlName="location" />
+    <div *ngIf="form.controls['location'].invalid && form.controls['location'].touched">
+      La localizacion es obligatoria.
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de aparición:</mat-label>
+      <input matInput [matDatepicker]="dp1" formControlName="created" />
+
+      <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
+      <mat-datepicker #dp1></mat-datepicker>
+    </mat-form-field>
+    <div *ngIf="form.controls['created'].invalid && form.controls['created'].touched">
+      La fecha de aparición es obligatoria.
+    </div>
 
     <!-- Botones de acción -->
     <button type="submit" [disabled]="form.invalid">Guardar Personaje</button>
