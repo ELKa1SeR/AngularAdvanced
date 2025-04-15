@@ -8,9 +8,9 @@ import { Character } from '../../../interface/character.interface';
   styleUrls: ['./character-card.component.scss']
 })
 export class CharacterCardComponent {
-  @Input() character!: Character; // Recibimos los datos del personaje
-  @Input() isAdmin!: boolean; // Recibimos el valor de isAdmin desde el componente padre
-  @Input() getStatusColor!: (status: string) => string; // Recibimos el método para obtener el color del estado
+  @Input() character!: Character; 
+  @Input() isAdmin!: boolean;
+  @Input() getStatusColor!: (status: string) => string;
 
 }
 

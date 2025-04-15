@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
+import { SharedModule } from '../../shared/shared.module';
 
 
 
@@ -35,6 +36,7 @@ import {MatInputModule} from '@angular/material/input';
     MatDatepickerModule,
     MatNativeDateModule ,
     MatInputModule,
+    SharedModule,
 
   ]
 })

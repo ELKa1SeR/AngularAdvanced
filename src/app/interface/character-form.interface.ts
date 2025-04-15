@@ -4,5 +4,5 @@ export interface CharacterForm {
   species: string;
   gender: string;
   image: string;
-  episode: string[]; // Episodios en los que aparecerá el personaje
+  episode: string[];
 }

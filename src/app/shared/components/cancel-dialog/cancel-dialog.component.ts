@@ -13,7 +13,7 @@ export class CancelDialogComponent {
   ) {}
 
   onCancel(): void {
-    this.dialogRef.close(); // Cerrar el diálogo cuando se cancela
+    this.dialogRef.close();
   }
 }
 

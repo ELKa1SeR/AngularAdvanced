@@ -1,39 +1,35 @@
 <div class="search-container">
-  <input [(ngModel)]="filter" (input)="onSearchChange()" placeholder="Buscar personajes por nombre" />
+  <input [(ngModel)]="filter" (input)="onSearchChange()" placeholder="Search for characters by name" />
 
   <select [(ngModel)]="statusFilter" (change)="onStatusChange()">
-    <option value="all">Todos</option>
-    <option value="alive">Vivos</option>
-    <option value="dead">Muertos</option>
-    <option value="unknown">Desconocido</option>
+    <option value="all">All</option>
+    <option value="alive">Alive</option>
+    <option value="dead">Dead</option>
+    <option value="unknown">Unknown</option>
   </select>
 
   <div class="status-colors" >
-    <span class="alive" value="alive">Vivo</span>
-    <span class="dead" value="dead">Muerto</span>
-    <span class="unknown" value="unknown">Desconocido</span>
+    <span class="alive" value="alive">Alive</span>
+    <span class="dead" value="dead">Dead</span>
+    <span class="unknown" value="unknown">Unknown</span>
   </div>
 
 
   <select name="episodes" id="episodes" [(ngModel)]="episodeFilter" (change)="onEpisodeChange()">
-    <option value="0">Todos Los Episodios</option>
+    <option value="0">All Episodes</option>
     @for (episode of [].constructor(51); track $index) {
-      <option value="{{ $index + 1 }}">Episodio {{ $index + 1 }}</option>
+      <option value="{{ $index + 1 }}">Episode {{ $index + 1 }}</option>
     }
 
   </select>
 </div>
 
-<!-- Mostrar el total de resultados filtrados -->
-<div class="results-count">
-  <p>{{ totalCount }} personajes encontrados, {{ startIndex + 1 }}-{{ endIndex }} mostrados </p>
-
-  <!-- Colores de los estados -->
-
+<div class="results-count" >
+  <p appHighlight>{{ totalCount }} characters encountered, {{ startIndex + 1 }}-{{ endIndex }} shown </p>
 </div>
 
 <div class="character-list">
-  <!-- Pasamos isAdmin y getStatusColor como inputs al CharacterCardComponent -->
+
   <app-character-card
     *ngFor="let character of filteredCharacters"
     [character]="character"
@@ -44,7 +40,9 @@
 
 <!-- Paginación -->
 <div class="pagination">
-  <button (click)="onPrevPage()" [disabled]="currentPage === 1">Página Anterior</button>
+  <button (click)="onFirstPage()" [disabled]="currentPage === 1">First Page</button>
+  <button (click)="onPrevPage()" [disabled]="currentPage === 1">Previously Page</button>
   <span>{{ currentPage }} de {{ totalPages }}</span>
-  <button (click)="onNextPage()" [disabled]="currentPage === totalPages">Página Siguiente</button>
+  <button (click)="onNextPage()" [disabled]="currentPage === totalPages">Next Page</button>
+  <button (click)="onLastPage()" [disabled]="currentPage === totalPages">Last Page</button>
 </div>

@@ -7,7 +7,7 @@ import { HighlightDirective } from './directives/highlight.directive';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CancelDialogComponent } from './components/cancel-dialog/cancel-dialog.component';
 import { SuccessDialogComponent } from './components/success-dialog/success-dialog.component';
 import { NoResultDialogComponent } from './components/no-result-dialog/no-result-dialog.component';

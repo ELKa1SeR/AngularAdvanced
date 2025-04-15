@@ -9,11 +9,11 @@ import { LoginComponent } from '../auth/login/login.component';
 
 
 const routes: Routes = [
-  { path: '', component: CharacterListComponent }, // Ruta principal para la lista de personajes
-  { path: 'add', component: CharacterCreateComponent }, // Ruta para crear un personaje
-  { path: 'characters/:id', component: CharacterDetailComponent }, // Ruta para detalle de personaje
-  { path: 'characters/:id/edit', component: CharacterCreateComponent }, // Ruta para editar un personaje
-  { path: '**', component: NotFoundComponent } // Ruta 404 para cuando no exista un personaje
+  { path: '', component: CharacterListComponent },
+  { path: 'add', component: CharacterCreateComponent },
+  { path: 'characters/:id', component: CharacterDetailComponent },
+  { path: 'characters/:id/edit', component: CharacterCreateComponent },
+  { path: '**', component: NotFoundComponent } 
 ];
 
 @NgModule({

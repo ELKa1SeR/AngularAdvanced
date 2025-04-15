@@ -3,6 +3,6 @@ export interface Location {
   name: string;
   type: string;
   dimension: string;
-  residents: string[]; // Lista de URLs de personajes que viven en esta ubicación
+  residents: string[]; 
   created: string;
 }

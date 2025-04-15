@@ -6,6 +6,6 @@ location: any;
   species: string;
   gender: string;
   image: string;
-  created: string; // Fecha de creación (primera aparición)
-  episode: string[]; // Episodios en los que aparece
+  created: string;
+  episode: string[]; 
 }

@@ -38,7 +38,6 @@ export class CharacterEditComponent implements OnInit {
 
   loadCharacterData(): void {
     this.characterService.getCharacterById((Number(this.characterId))).subscribe((character: Character) => {
-      console.log(character);
 
       this.characterForm.patchValue({
         name: character.name,
@@ -49,7 +48,7 @@ export class CharacterEditComponent implements OnInit {
         location: character.location.name,
         created: new Date(character.created),
       });
-      console.log(this.characterForm.value);
+
     });
   }
 
@@ -58,9 +57,13 @@ export class CharacterEditComponent implements OnInit {
       const updatedCharacter = this.characterForm.value;
       this.characterService.updateCharacter(Number(this.characterId), updatedCharacter);
 
-      // Redirigir a la lista de personajes después de guardar
+
       this.router.navigate(['/characters']);
     }
+  }
+
+  cancel() {
+    this.router.navigate(['/characters']);
   }
 
 

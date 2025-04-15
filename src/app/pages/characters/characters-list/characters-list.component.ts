@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Character } from '../../../interface/character.interface';
 import { CharacterService } from '../../../core/services/character.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { Filter } from '../../../interface/filter.interface';
-import { ApiResponse } from '../../../interface/api-response.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { NoResultDialogComponent } from '../../../shared/components/no-result-dialog/no-result-dialog.component';
 import { Router } from '@angular/router';
-import { EpisodeService } from '../../../core/services/episode.service';
-import { Episode } from '../../../interface/episode.interface';
+
+
 
 @Component({
   selector: 'app-character-list',
@@ -20,8 +18,8 @@ export class CharacterListComponent implements OnInit {
   filteredCharacters: Character[] = [];
   filteredAllCharacters: Character[] = [];
   filter: string = '';
-  statusFilter: string = 'all'; // Estado: all, alive, dead, unknown
-  episodeFilter: number[] = [0]; // Episodio: vacío o especificar episodio
+  statusFilter: string = 'all';
+  episodeFilter: number[] = [0];
   isAdmin: boolean = false;
   allCharacters: Character[] = [];
   // Paginación
@@ -30,11 +28,11 @@ export class CharacterListComponent implements OnInit {
   totalCount: number = 0;
   startIndex: number = 0;
   endIndex: number = 0;
-  itemsPerPage: number = 20; // Por defecto, 20 personajes por página
+  itemsPerPage: number = 20;
+
 
   constructor(
     private characterService: CharacterService,
-    private episodeService: EpisodeService,
     private authService: AuthService,
     private dialog: MatDialog,
     private router: Router
@@ -42,7 +40,7 @@ export class CharacterListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
-    console.log(this.isAdmin);
+
     const savedCharacters = localStorage.getItem('allCharacters');
     if (savedCharacters) {
       this.allCharacters = JSON.parse(savedCharacters);
@@ -54,7 +52,7 @@ export class CharacterListComponent implements OnInit {
 
   loadAllCharacter() {
     this.characterService.getAllCharacters().subscribe((pages) => {
-      // Combinar todos los personajes en un solo array
+
       this.allCharacters = pages.flatMap((page) => page.results);
       localStorage.setItem('allCharacters', JSON.stringify(this.allCharacters));
       this.filterCharacters();
@@ -100,21 +98,21 @@ export class CharacterListComponent implements OnInit {
      this.endIndex = this.startIndex + this.itemsPerPage;
 
     this.filteredCharacters = this.filteredAllCharacters.slice(this.startIndex, this.endIndex);
-    
+
   }
 
   onSearchChange() {
-    this.currentPage = 1; // Resetear a la primera página al cambiar la búsqueda
+    this.currentPage = 1;
     this.filterCharacters();
   }
 
   onStatusChange() {
-    this.currentPage = 1; // Resetear a la primera página al cambiar el estado
+    this.currentPage = 1;
     this.filterCharacters();
   }
 
   onEpisodeChange() {
-    this.currentPage = 1; // Resetear a la primera página al cambiar el episodio
+    this.currentPage = 1;
     this.filterCharacters();
   }
 
@@ -137,7 +135,7 @@ export class CharacterListComponent implements OnInit {
     }
   }
 
-  // Métodos para manejar los botones "PrevPage" y "NextPage"
+
   onPrevPage() {
     if (this.currentPage > 1) {
       this.onPageChange(this.currentPage - 1);
@@ -150,12 +148,21 @@ export class CharacterListComponent implements OnInit {
     }
   }
 
+  onLastPage() {
+    this.onPageChange(this.totalPages);
+  }
+
+
+  onFirstPage() {
+    this.onPageChange(1);
+  }
+
   showNoResultsDialog() {
-    console.log('Abriendo diálogo de "No resultados"');
+    console.log('Opening "No results" dialogue');
     const dialogRef = this.dialog.open(NoResultDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('Diálogo cerrado', result);
+      console.log('Closed dialogue', result);
     });
   }
 

@@ -13,14 +13,14 @@ export class HomeComponent {
 
   login(role: string) {
     if (role === 'ADMIN') {
-      // Guardamos el rol de ADMIN
+     
       this.authService.login('ADMIN');
-      // Redirigimos a la página de login
+
       this.router.navigate(['/login']);
     } else if (role === 'GUEST') {
-      // Guardamos el rol de Invitado
+
       this.authService.login('GUEST');
-      // Redirigimos directamente a la lista de personajes
+
       this.router.navigate(['/characters']);
     }
   }

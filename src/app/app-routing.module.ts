@@ -10,17 +10,17 @@ import { CharacterDetailComponent } from './pages/characters/character-details/c
 import { CharacterEditComponent } from './pages/characters/character-edit/character-edit.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },  // Página principal de personajes
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'characters', component: CharacterListComponent },  // Listado de personajes
-  { path: 'characters/create', component: CharacterCreateComponent },  // Crear personaje
-  { path: 'characters/:id', component: CharacterDetailComponent },  // Detalle de personaje
-  { path: 'characters/:id/edit', component: CharacterEditComponent },  // Editar personaje
-  { path: '**', component: NotFoundComponent },  // Página 404
+  { path: 'characters', component: CharacterListComponent },
+  { path: 'characters/create', component: CharacterCreateComponent },
+  { path: 'characters/:id', component: CharacterDetailComponent },
+  { path: 'characters/:id/edit', component: CharacterEditComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)], // Configuración principal de rutas
+  imports: [RouterModule.forRoot(routes)], 
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

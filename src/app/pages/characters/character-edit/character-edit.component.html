@@ -1,58 +1,59 @@
 <div class="character-edit">
-  <h2>Editar Personaje</h2>
+  <h2>Edit Character</h2>
   <form [formGroup]="characterForm" (ngSubmit)="onSubmit()">
-    <label for="name">Nombre:</label>
+    <label for="name">Name:</label>
     <input id="name" formControlName="name" />
     <div *ngIf="characterForm.controls['name'].invalid && characterForm.controls['name'].touched">
-      El nombre es obligatorio.
+      The name is mandatory.
     </div>
 
-    <label for="species">Especie:</label>
+    <label for="species">Specie:</label>
     <input id="species" formControlName="species" />
     <div *ngIf="characterForm.controls['species'].invalid && characterForm.controls['species'].touched">
-      La especie es obligatoria.
+      The species is mandatory.
     </div>
 
-    <label for="status">Estado:</label>
+    <label for="status">Status:</label>
     <select id="status" formControlName="status">
-      <option value="Alive">Vivo</option>
-      <option value="Dead">Muerto</option>
-      <option value="unknown">Desconocido</option>
+      <option value="Alive">Alive</option>
+      <option value="Dead">Dead</option>
+      <option value="unknown">unknown</option>
     </select>
 
-    <label for="image">Imagen URL:</label>
+    <label for="image">Image URL:</label>
     <input id="image" formControlName="image" />
 
     <mat-form-field appearance="fill">
-      <mat-label>Selecciona episodios</mat-label>
+      <mat-label>Select episodes</mat-label>
       <mat-select formControlName="episode" multiple>
         <mat-option *ngFor="let episode of [].constructor(51); let i = index" value="{{i+1}}">
 
-            Episodio {{ i+1 }}
+            Episode {{ i+1 }}
 
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <label for="location">Localizacion:</label>
+    <label for="location">Location:</label>
     <input id="location" formControlName="location" />
     <div *ngIf="characterForm.controls['location'].invalid && characterForm.controls['location'].touched">
-      La localizacion es obligatoria.
+      Localisation is a must.
     </div>
 
       <mat-form-field appearance="fill">
-        <mat-label>Fecha de aparición:</mat-label>
+        <mat-label>Date of appearance:</mat-label>
         <input matInput [matDatepicker]="dp1" formControlName="created" />
 
         <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
         <mat-datepicker #dp1></mat-datepicker>
       </mat-form-field>
       <div *ngIf="characterForm.controls['created'].invalid && characterForm.controls['created'].touched">
-        La fecha de aparicion es obligatoria.
+        The date of appearance is mandatory.
       </div>
 
 
-    <button type="submit" [disabled]="characterForm.invalid">Guardar</button>
+    <button type="submit" [disabled]="characterForm.invalid">Save</button>
+    <button type="button" (click)="cancel()">Cancel</button>
   </form>
 
 

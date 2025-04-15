@@ -24,8 +24,6 @@ export class CharacterDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private characterService: CharacterService,
-    private locationService: CharacterService,
-    private episodeService: CharacterService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -43,8 +41,8 @@ export class CharacterDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
-        title: 'Confirmar Eliminación',
-        message: `¿Estás seguro de que deseas eliminar a ${this.character.name}?`
+        title: 'Confirm Deletion',
+        message: `Are you sure you want to remove ${this.character.name}?`
       }
     });
 
@@ -61,26 +59,26 @@ export class CharacterDetailComponent implements OnInit {
     if (characterId) {
       const id = Number(characterId);
       if (!isNaN(id)) {
-        // Llamar al servicio para eliminar el personaje de localStorage
+
         this.characterService.deleteCharacter(id);
 
-        // Redirigir a la lista de personajes después de eliminar
+
         this.router.navigate(['/characters']);
       } else {
-        console.error('El ID del personaje no es válido');
+        console.error('The character ID is invalid');
       }
     } else {
-      console.error('ID de personaje no encontrado');
+      console.error('Character ID not found');
     }
   }
 
-  // Abrir el diálogo de confirmación para editar un personaje
+
   openEditConfirmDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
-        title: 'Confirmar Edición',
-        message: `¿Estás seguro de que deseas editar a ${this.character.name}?`
+        title: 'Confirm Edition',
+        message: `Are you sure you want to edit ${this.character.name}?`
       }
     });
 
@@ -96,21 +94,21 @@ export class CharacterDetailComponent implements OnInit {
     this.router.navigate([`/characters/${characterId}/edit`]);
   }
 
-  // Mostrar el diálogo de cancelación cuando se cancela una acción
+
   openCancelDialog(): void {
     const dialogRef = this.dialog.open(CancelDialogComponent, {
       width: '400px',
-      data: { message: 'La acción ha sido cancelada.' }
+      data: { message: 'The action has been cancelled.' }
     });
 
     dialogRef.afterClosed().subscribe();
   }
 
-  // Mostrar el diálogo de éxito cuando se guarda un personaje correctamente
+
   openSuccessDialog(): void {
     const dialogRef = this.dialog.open(SuccessDialogComponent, {
       width: '400px',
-      data: { message: `¡El personaje ${this.character.name} se ha guardado con éxito!` }
+      data: { message: `The character ${this.character.name} has been saved successfully!` }
     });
 
     dialogRef.afterClosed().subscribe();

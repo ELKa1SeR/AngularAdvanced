@@ -4,6 +4,6 @@
   <p>{{ character.species }}</p>
   <p>{{ character.status }}</p>
   <p>Primera aparición: {{ character.created | date: 'MMMM d, y' }}</p>
-  <button *ngIf="isAdmin" routerLink="/characters/{{ character.id }}">Ver Detalle</button>
+  <button *ngIf="isAdmin" routerLink="/characters/{{ character.id }}">View details</button>
 </div>
 

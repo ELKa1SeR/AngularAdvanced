@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './no-result-dialog.component.scss'
 })
 export class NoResultDialogComponent {
-  message: string = "No se encontraron personajes con esos criterios.";
+  message: string = "No characters with these criteria were found.";
 }

@@ -1,16 +1,15 @@
 <div class="character-detail">
   <h2>{{ character.name }}</h2>
   <img [src]="character.image" alt="{{ character.name }}" />
-  <p><strong>Especie:</strong> {{ character.species }}</p>
-  <p><strong>Estado:</strong> {{ character.status }}</p>
-  <p><strong>Primera aparición:</strong> {{ character.created | date: 'MMMM d, y' }}</p>
-  <p><strong>Episodios:</strong> {{ character.episode.length }}</p>
-  <p><strong>Ubicación:</strong> {{ character.location.name }}</p>
+  <p><strong>Species:</strong> {{ character.species }}</p>
+  <p><strong>Status:</strong> {{ character.status }}</p>
+  <p><strong>First appearance:</strong> {{ character.created | date: 'MMMM d, y' }}</p>
+  <p><strong>Episodes:</strong> {{ character.episode.length }}</p>
+  <p><strong>Location:</strong> {{ character.location.name }}</p>
 
-  <!-- Botones solo visibles para el ADMIN -->
   <div *ngIf="isAdmin">
-    <button mat-button (click)="openEditConfirmDialog()">Editar</button>
-    <button mat-button color="warn" (click)="openDeleteConfirmDialog()">Eliminar</button>
+    <button mat-button (click)="openEditConfirmDialog()">Edit</button>
+    <button mat-button color="warn" (click)="openDeleteConfirmDialog()">Delete</button>
   </div>
 </div>
 

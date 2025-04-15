@@ -39,7 +39,7 @@ $rick-morty-app-theme: mat.define-theme((
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/* 🎨 VARIABLES POR TEMA */
+/* 🎨 VARIABLES BY THEME */
 
 body.light {
   --bg-color: #ffffff;
@@ -62,7 +62,7 @@ body.dark {
   --dialog-bg: #2a2a2a;
 }
 
-/* 🔧 APLICACIÓN GLOBAL */
+/* 🔧 GLOBAL IMPLEMENTATION */
 
 body {
   background-color: var(--bg-color);
@@ -81,7 +81,7 @@ header {
   align-items: center;
 }
 
-/* 🧩 Botones */
+/* 🧩 Buttons */
 
 button {
   background-color: var(--button-bg);
@@ -98,7 +98,6 @@ button:hover {
   opacity: 0.9;
 }
 
-/* 🧾 Tarjetas */
 
 .card {
   background-color: var(--card-bg);
@@ -108,7 +107,7 @@ button:hover {
   transition: background-color 0.3s;
 }
 
-/* 💬 Modales Angular Material */
+/* 💬 Modals Angular Material */
 
 .mat-dialog-container {
   background-color: var(--dialog-bg) !important;
