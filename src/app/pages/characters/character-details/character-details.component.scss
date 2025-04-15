@@ -1,9 +1,12 @@
 .character-detail {
+  border: 2px solid transparent;
   text-align: center;
-  padding: 2rem;
+  justify-self: center;
+   width: 460px;
 }
 
 .character-detail h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
+

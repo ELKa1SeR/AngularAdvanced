@@ -1,4 +1,4 @@
-<div class="character-detail">
+<div class="character-detail" [ngStyle]="{ 'border-color': getStatusColor(character.status) }">
   <h2>{{ character.name }}</h2>
   <img [src]="character.image" alt="{{ character.name }}" />
   <p><strong>Species:</strong> {{ character.species }}</p>

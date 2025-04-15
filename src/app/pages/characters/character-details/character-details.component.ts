@@ -16,6 +16,7 @@ import { Episode } from '../../../interface/episode.interface';
   styleUrls: ['./character-details.component.scss']
 })
 export class CharacterDetailComponent implements OnInit {
+
   character!: Character;
   isAdmin: boolean = false;
   locations: Location[] = [];
@@ -112,5 +113,18 @@ export class CharacterDetailComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe();
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'Alive':
+        return 'green';
+      case 'Dead':
+        return 'red';
+      case 'unknown':
+        return 'gray';
+      default:
+        return '';
+    }
   }
 }
