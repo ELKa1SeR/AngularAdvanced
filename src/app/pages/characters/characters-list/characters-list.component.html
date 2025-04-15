@@ -8,28 +8,23 @@
     <option value="unknown">Unknown</option>
   </select>
 
-  <div class="status-colors" >
+  <div class="status-colors">
     <span class="alive" value="alive">Alive</span>
     <span class="dead" value="dead">Dead</span>
     <span class="unknown" value="unknown">Unknown</span>
   </div>
 
-
   <select name="episodes" id="episodes" [(ngModel)]="episodeFilter" (change)="onEpisodeChange()">
     <option value="0">All Episodes</option>
-    @for (episode of [].constructor(51); track $index) {
-      <option value="{{ $index + 1 }}">Episode {{ $index + 1 }}</option>
-    }
-
+    <option *ngFor="let episode of [].constructor(51); let i = index" [value]="i+1">Episode {{ i + 1 }}</option>
   </select>
 </div>
 
-<div class="results-count" >
+<div class="results-count">
   <p appHighlight>{{ totalCount }} characters encountered, {{ startIndex + 1 }}-{{ endIndex }} shown </p>
 </div>
 
-<div class="character-list">
-
+<div class="character-list" #characterList>
   <app-character-card
     *ngFor="let character of filteredCharacters"
     [character]="character"
