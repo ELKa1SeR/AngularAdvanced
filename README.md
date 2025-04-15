@@ -143,6 +143,16 @@ Navigate to `http://localhost:4200/`. The app will automatically reload if you c
 
 ---
 
+### 6. 404 Not Found
+
+- Page where if you manually enter a change in the Url or redirect to a non-existing page, you will be redirected immediately.
+
+#### Screenshot
+
+<img width="535" alt="Add Character View" src="public/screen/404notfound.png">
+
+---
+
 ## 🎨 Theme Toggle
 
 - A toggle button in the header switches between light and dark themes
