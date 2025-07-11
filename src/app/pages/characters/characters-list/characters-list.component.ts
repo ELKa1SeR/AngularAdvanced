@@ -14,9 +14,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./characters-list.component.scss'],
 })
 export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
-  @Input() filter: string = ''; // Received from parent component
-  @Input() statusFilter: string = 'all'; // Received from parent component
-  @Input() episodeFilter: number[] = [0]; // Received from parent component
+  @Input() filter: string = '';
+  @Input() statusFilter: string = 'all';
+  @Input() episodeFilter: number[] = [0];
 
   characters: Character[] = [];
   filteredCharacters: Character[] = [];
@@ -25,7 +25,6 @@ export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, Aft
 
   isAdmin: boolean = false;
 
-  // Pagination
   currentPage: number = 1;
   totalPages: number = 1;
   totalCount: number = 0;
@@ -47,8 +46,6 @@ export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, Aft
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
-
-    // Trying to load characters stored in localStorage
     const savedCharacters = localStorage.getItem('allCharacters');
     if (savedCharacters) {
       this.allCharacters = JSON.parse(savedCharacters);
@@ -59,25 +56,20 @@ export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, Aft
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Reacts to changes in inputs
     if (changes['filter'] || changes['statusFilter'] || changes['episodeFilter']) {
       this.filterCharacters();
     }
   }
 
   ngOnDestroy(): void {
-    // Cleaning up subscriptions to avoid memory leaks
-    if (this.characterSubscription) {
-      this.characterSubscription.unsubscribe();
-    }
+    this.characterSubscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {
-    // Scroll to the first character after the view is initialised
     this.characterList.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
 
-  loadAllCharacter() {
+  loadAllCharacter(): void {
     this.characterSubscription = this.characterService.getAllCharacters().subscribe((pages) => {
       this.allCharacters = pages.flatMap((page) => page.results);
       localStorage.setItem('allCharacters', JSON.stringify(this.allCharacters));
@@ -85,54 +77,73 @@ export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, Aft
     });
   }
 
-  filterCharacters() {
+  filterCharacters(): void {
     this.filteredAllCharacters = this.allCharacters
       .filter((character) => {
         const nameMatch = character.name.toLowerCase().includes(this.filter.toLowerCase());
         const statusMatch = this.statusFilter.toLowerCase() === 'all' || character.status.toLowerCase() === this.statusFilter.toLowerCase();
-
-        const episodeIds = character.episode.map((url) => +url.split('/').pop()!);
-        const episodeMatch = this.episodeFilter.length === 0 || this.episodeFilter.includes(0) || episodeIds.includes(+this.episodeFilter);
-
+        const episodeIds = character.episode
+          .filter((url: unknown): url is string => typeof url === 'string')
+          .map((url: string) => +url.split('/').pop()!);
+        const episodeMatch = this.episodeFilter.length === 0 || this.episodeFilter.includes(0) || this.episodeFilter.some((id) => episodeIds.includes(id));
         return nameMatch && statusMatch && episodeMatch;
       })
-      .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically
+      .sort((a, b) => a.name.localeCompare(b.name));
 
     this.totalCount = this.filteredAllCharacters.length;
     this.totalPages = Math.ceil(this.filteredAllCharacters.length / this.itemsPerPage);
 
-    if (this.filteredAllCharacters.length === 0) {
-      this.dialog.open(NoResultDialogComponent); // Show dialogue if there are no results
+    if (this.totalCount === 0) {
+      this.dialog.open(NoResultDialogComponent);
     }
 
     this.paginationCharacter();
   }
 
-  paginationCharacter() {
+  paginationCharacter(): void {
     this.startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.endIndex = this.startIndex + this.itemsPerPage;
-
     this.filteredCharacters = this.filteredAllCharacters.slice(this.startIndex, this.endIndex);
   }
 
-  onSearchChange() {
+  onSearchChange(): void {
     this.currentPage = 1;
     this.filterCharacters();
   }
 
-  onStatusChange() {
+  onStatusChange(): void {
     this.currentPage = 1;
     this.filterCharacters();
   }
 
-  onEpisodeChange() {
+  onEpisodeChange(): void {
     this.currentPage = 1;
     this.filterCharacters();
   }
 
-  onPageChange(page: number) {
+  onPageChange(page: number): void {
     this.currentPage = page;
     this.paginationCharacter();
+  }
+
+  onPrevPage(): void {
+    if (this.currentPage > 1) {
+      this.onPageChange(this.currentPage - 1);
+    }
+  }
+
+  onNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.onPageChange(this.currentPage + 1);
+    }
+  }
+
+  onLastPage(): void {
+    this.onPageChange(this.totalPages);
+  }
+
+  onFirstPage(): void {
+    this.onPageChange(1);
   }
 
   getStatusColor(status: string): string {
@@ -148,35 +159,7 @@ export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, Aft
     }
   }
 
-  onPrevPage() {
-    if (this.currentPage > 1) {
-      this.onPageChange(this.currentPage - 1);
-    }
-  }
-
-  onNextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.onPageChange(this.currentPage + 1);
-    }
-  }
-
-  onLastPage() {
-    this.onPageChange(this.totalPages);
-  }
-
-  onFirstPage() {
-    this.onPageChange(1);
-  }
-
-  showNoResultsDialog() {
-    console.log('Opening "No results" dialogue');
-    const dialogRef = this.dialog.open(NoResultDialogComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Closed dialogue', result);
-    });
-  }
-
-  viewDetails(characterId: number) {
+  viewDetails(characterId: number): void {
     if (this.isAdmin) {
       this.router.navigate([`/characters/${characterId}`]);
     }

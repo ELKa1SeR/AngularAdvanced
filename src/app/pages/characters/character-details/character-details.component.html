@@ -1,15 +1,18 @@
-<div class="character-detail" [ngStyle]="{ 'border-color': getStatusColor(character.status) }">
+<div class="character-detail" [ngClass]="character.status.toLowerCase()">
   <h2>{{ character.name }}</h2>
-  <img [src]="character.image" alt="{{ character.name }}" />
-  <p><strong>Species:</strong> {{ character.species }}</p>
-  <p><strong>Status:</strong> {{ character.status }}</p>
-  <p><strong>First appearance:</strong> {{ character.created | date: 'MMMM d, y' }}</p>
-  <p><strong>Episodes:</strong> {{ character.episode.length }}</p>
-  <p><strong>Location:</strong> {{ character.location.name }}</p>
 
-  <div *ngIf="isAdmin">
-    <button mat-button (click)="openEditConfirmDialog()">Edit</button>
-    <button mat-button color="warn" (click)="openDeleteConfirmDialog()">Delete</button>
+  <img [src]="character.image" [alt]="character.name" class="character-image" />
+
+  <div class="character-info">
+    <p><strong>Species:</strong> {{ character.species }}</p>
+    <p><strong>Status:</strong> {{ character.status }}</p>
+    <p><strong>First appearance:</strong> {{ character.created | date: 'MMMM d, y' }}</p>
+    <p><strong>Episodes:</strong> {{ character.episode.length }}</p>
+    <p><strong>Location:</strong> {{ character.location.name }}</p>
+  </div>
+
+  <div class="action-buttons" *ngIf="isAdmin">
+    <button mat-raised-button color="primary" (click)="openEditConfirmDialog()">Edit</button>
+    <button mat-raised-button color="warn" (click)="openDeleteConfirmDialog()">Delete</button>
   </div>
 </div>
-

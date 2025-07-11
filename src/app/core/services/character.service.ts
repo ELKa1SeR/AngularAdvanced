@@ -59,7 +59,7 @@ export class CharacterService {
   // 2. Crear personaje en localStorage
   createCharacter(character: Character): void {
     const customCharacters = this.getLocalCharacters();
-    
+
     customCharacters.push(character);
 
     // Guardamos los personajes actualizados en localStorage
@@ -98,4 +98,11 @@ export class CharacterService {
 
     return forkJoin(requests); // Devuelve un array con la respuesta de cada página
   }
+
+
+  imageRandom(): Observable<Character> {
+    const randomId = Math.floor(Math.random() * 826) + 1;
+    return this.http.get<Character>(`${this.apiUrl}/${randomId}`);
+  }
+
 }

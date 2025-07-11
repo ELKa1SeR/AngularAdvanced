@@ -13,6 +13,7 @@ import { Character } from '../../../interface/character.interface';
 export class CharacterEditComponent implements OnInit {
   characterForm: FormGroup;
   characterId: string = '';
+  imageData: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,7 +28,7 @@ export class CharacterEditComponent implements OnInit {
       image: ['', Validators.required],
       episode: [[], Validators.required],
       location: ['', Validators.required],
-      created: [null , Validators.required]
+      created: [null, Validators.required]
     });
   }
 
@@ -37,35 +38,45 @@ export class CharacterEditComponent implements OnInit {
   }
 
   loadCharacterData(): void {
-    this.characterService.getCharacterById((Number(this.characterId))).subscribe((character: Character) => {
-
+    this.characterService.getCharacterById(Number(this.characterId)).subscribe((character: Character) => {
+      this.imageData = character.image;
       this.characterForm.patchValue({
         name: character.name,
         species: character.species,
         status: character.status,
         image: character.image,
-        episode: character.episode.map(url => url.split('/').pop()!),
+        episode: character.episode.map((url: string) => url.split('/').pop()!),
         location: character.location.name,
-        created: new Date(character.created),
+        created: new Date(character.created)
       });
+    });
+  }
 
+  generateRandomImage(): void {
+    this.characterService.imageRandom().subscribe((char: Character) => {
+      this.imageData = char.image;
+      this.characterForm.patchValue({ image: char.image });
     });
   }
 
   onSubmit(): void {
     if (this.characterForm.valid) {
-      const updatedCharacter = this.characterForm.value;
+      const formValues = this.characterForm.value;
+      const updatedCharacter: Character = {
+        ...formValues,
+        location: {
+          name: formValues.location,
+          url: `https://rickandmortyapi.com/api/location/0`
+        },
+        episode: formValues.episode.map((ep: string | number) => `https://rickandmortyapi.com/api/episode/${ep}`)
+      };
       this.characterService.updateCharacter(Number(this.characterId), updatedCharacter);
-
-
       this.router.navigate(['/characters']);
     }
   }
 
-  cancel() {
+  cancel(): void {
     this.router.navigate(['/characters']);
   }
-
-
 }
 

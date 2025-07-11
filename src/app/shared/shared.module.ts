@@ -12,6 +12,7 @@ import { CancelDialogComponent } from './components/cancel-dialog/cancel-dialog.
 import { SuccessDialogComponent } from './components/success-dialog/success-dialog.component';
 import { NoResultDialogComponent } from './components/no-result-dialog/no-result-dialog.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FooterComponent } from './components/footer/footer.component';
     SuccessDialogComponent,
     NoResultDialogComponent,
     FooterComponent,
+    AlertDialogComponent,
   ],
   imports: [
     CommonModule,

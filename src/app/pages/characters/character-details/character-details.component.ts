@@ -19,8 +19,6 @@ export class CharacterDetailComponent implements OnInit {
 
   character!: Character;
   isAdmin: boolean = false;
-  locations: Location[] = [];
-  episodes: Episode[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -30,14 +28,13 @@ export class CharacterDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isAdmin = true; // Verifica si el usuario es administrador
+    this.isAdmin = true;
     const characterId = this.route.snapshot.paramMap.get('id')!;
     this.characterService.getCharacterById(Number(characterId)).subscribe((data: Character) => {
       this.character = data;
     });
   }
 
-  // Abrir el diálogo de confirmación para eliminar un personaje
   openDeleteConfirmDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
@@ -55,24 +52,14 @@ export class CharacterDetailComponent implements OnInit {
   }
 
   deleteCharacter(): void {
-    const characterId = this.route.snapshot.paramMap.get('id');
-
-    if (characterId) {
-      const id = Number(characterId);
-      if (!isNaN(id)) {
-
-        this.characterService.deleteCharacter(id);
-
-
-        this.router.navigate(['/characters']);
-      } else {
-        console.error('The character ID is invalid');
-      }
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!isNaN(id)) {
+      this.characterService.deleteCharacter(id);
+      this.router.navigate(['/characters']);
     } else {
-      console.error('Character ID not found');
+      console.error('Invalid character ID');
     }
   }
-
 
   openEditConfirmDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -95,36 +82,26 @@ export class CharacterDetailComponent implements OnInit {
     this.router.navigate([`/characters/${characterId}/edit`]);
   }
 
-
   openCancelDialog(): void {
-    const dialogRef = this.dialog.open(CancelDialogComponent, {
+    this.dialog.open(CancelDialogComponent, {
       width: '400px',
       data: { message: 'The action has been cancelled.' }
     });
-
-    dialogRef.afterClosed().subscribe();
   }
 
-
   openSuccessDialog(): void {
-    const dialogRef = this.dialog.open(SuccessDialogComponent, {
+    this.dialog.open(SuccessDialogComponent, {
       width: '400px',
       data: { message: `The character ${this.character.name} has been saved successfully!` }
     });
-
-    dialogRef.afterClosed().subscribe();
   }
 
   getStatusColor(status: string): string {
     switch (status) {
-      case 'Alive':
-        return 'green';
-      case 'Dead':
-        return 'red';
-      case 'unknown':
-        return 'gray';
-      default:
-        return '';
+      case 'Alive': return 'green';
+      case 'Dead': return 'red';
+      case 'unknown': return 'gray';
+      default: return '';
     }
   }
 }

@@ -8,12 +8,13 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+
   constructor(
     private authService: AuthService, private router: Router) {}
 
   login(role: string) {
     if (role === 'ADMIN') {
-     
+
       this.authService.login('ADMIN');
 
       this.router.navigate(['/login']);
@@ -24,5 +25,7 @@ export class HomeComponent {
       this.router.navigate(['/characters']);
     }
   }
+
+
 }
 

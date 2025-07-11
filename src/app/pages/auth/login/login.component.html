@@ -1,9 +1,19 @@
 <div class="login-container">
   <h2>Login as ADMIN</h2>
   <div class="image"></div>
-  <form (ngSubmit)="login()" #loginForm="ngForm">
-    <input type="text" name="username" [(ngModel)]="username" placeholder="Username" required>
-    <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
-    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
+    <input type="text" formControlName="username" placeholder="Username" />
+    <div class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+      Username is required.
+    </div>
+
+    <input type="password" formControlName="password" placeholder="Password" />
+    <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+      Password is required.
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
   </form>
 </div>
+

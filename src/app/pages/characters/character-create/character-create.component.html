@@ -1,85 +1,86 @@
 <div class="add-character-container">
   <h2>Add a New Character</h2>
-  <form [formGroup]="form" (ngSubmit)="saveCharacter()">
-
-    <label for="name">Name:</label>
-    <input id="name" formControlName="name" />
-    <div *ngIf="form.controls['name'].invalid && form.controls['name'].touched">
-      The name is compulsory.
-    </div>
-
-
-    <label for="species">Species:</label>
-    <select id="species" formControlName="species">
-      <option value="Human">Human</option>
-      <option value="Alien">Alien</option>
-      <option value="Humanoid">Unknown</option>
-      <option value="Robot">Robot</option>
-    </select>
-
-    <div *ngIf="form.controls['species'].invalid && form.controls['species'].touched">
-      The species is mandatory.
-    </div>
+  <form [formGroup]="form" (ngSubmit)="saveCharacter()" class="character-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="form.controls['name'].invalid && form.controls['name'].touched">
+        The name is required
+      </mat-error>
+    </mat-form-field>
 
 
-    <label for="status">Status:</label>
-    <select id="status" formControlName="status">
-      <option value="Alive">Alive</option>
-      <option value="Dead">Dead</option>
-      <option value="unknown">Unknown</option>
-    </select>
-
-    <div *ngIf="form.controls['status'].invalid && form.controls['status'].touched">
-      The state is obligatory.
-    </div>
-
-
-    <label for="image">Image:</label>
-    <input type="file" id="image" (change)="onFileChange($event)" />
-    <div *ngIf="imageError" style="color: red;">
-      {{ imageError }}
-    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Species</mat-label>
+      <mat-select formControlName="species" required>
+        <mat-option value="Human">Human</mat-option>
+        <mat-option value="Alien">Alien</mat-option>
+        <mat-option value="Humanoid">Humanoid</mat-option>
+        <mat-option value="Robot">Robot</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls['species'].invalid && form.controls['species'].touched">
+        The species is required
+      </mat-error>
+    </mat-form-field>
 
 
-    <div *ngIf="imageData">
-      <h3>Image preview:</h3>
-      <img [src]="imageData" alt="Image preview" width="200" />
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" required>
+        <mat-option value="Alive">Alive</mat-option>
+        <mat-option value="Dead">Dead</mat-option>
+        <mat-option value="unknown">Unknown</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.controls['status'].invalid && form.controls['status'].touched">
+        The status is required
+      </mat-error>
+    </mat-form-field>
+
+
+    <div class="image-section">
+      <div *ngIf="imageData" class="image-preview">
+        <img [src]="imageData" alt="Character preview" class="preview-img" />
+        <button mat-raised-button color="accent" (click)="generateRandomImage()">Change Image</button>
+      </div>
     </div>
 
 
     <mat-form-field appearance="fill">
       <mat-label>Select episodes</mat-label>
-      <mat-select formControlName="episode" multiple>
-        <mat-option *ngFor="let episode of [].constructor(51); let i = index" value="{{i+1}}">
-
-            Episodie {{ i+1 }}
-
+      <mat-select formControlName="episode" multiple required>
+        <mat-option *ngFor="let episode of [].constructor(51); let i = index" [value]="i+1">
+          Episode {{ i+1 }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="form.controls['episode'].invalid && form.controls['episode'].touched">
+        At least one episode is required
+      </mat-error>
     </mat-form-field>
 
-    <label for="location">Location:</label>
-    <input id="location" formControlName="location" />
-    <div *ngIf="form.controls['location'].invalid && form.controls['location'].touched">
-      Localisation is a must.
-    </div>
 
     <mat-form-field appearance="fill">
-      <mat-label>Date of appearance:</mat-label>
-      <input matInput [matDatepicker]="dp1" formControlName="created" />
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location" required>
+      <mat-error *ngIf="form.controls['location'].invalid && form.controls['location'].touched">
+        The location is required
+      </mat-error>
+    </mat-form-field>
 
+
+    <mat-form-field appearance="fill">
+      <mat-label>Date of appearance</mat-label>
+      <input matInput [matDatepicker]="dp1" formControlName="created" required>
       <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
       <mat-datepicker #dp1></mat-datepicker>
+      <mat-error *ngIf="form.controls['created'].invalid && form.controls['created'].touched">
+        The date of appearance is required
+      </mat-error>
     </mat-form-field>
-    <div *ngIf="form.controls['created'].invalid && form.controls['created'].touched">
-      The date of appearance is mandatory.
+
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Save Character</button>
+      <button mat-raised-button color="warn" type="button" (click)="cancel()">Cancel</button>
     </div>
-
-
-    <button type="submit" [disabled]="form.invalid">Save Character</button>
-    <button type="button" (click)="cancel()">Cancel</button>
   </form>
 </div>
-
-
-
