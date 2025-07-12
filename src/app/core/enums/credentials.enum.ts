@@ -1,0 +1,4 @@
+export const AUTH_CREDENTIALS = {
+  ADMIN_USERNAME: 'admin',
+  ADMIN_PASSWORD: '1234'
+};

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { ThemeService } from '../../../core/services/theme.service';
+import { ThemeType } from '../../../core/enums/theme.enum';
+import { UserRole } from '../../../core/enums/userrole.enum';
+import { AuthService } from '../../../core/services/auth.service';
 
 
 @Component({
@@ -8,22 +11,23 @@ import { ThemeService } from '../../../core/services/theme.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  themeLabel = 'Dark';
-  
+  themeLabel = '';
+  ThemeType = ThemeType;
 
   constructor(
     private themeService: ThemeService,
-
-  )
-  {
+    private authService: AuthService
+  ) {
     const current = this.themeService.getCurrentTheme();
-    this.themeLabel = current === 'dark' ? 'Light' : 'Dark';
+    this.themeLabel = current === ThemeType.Dark ? 'Light' : 'Dark';
   }
 
-  toggleTheme() {
+  toggleTheme(): void {
     const newTheme = this.themeService.toggleTheme();
-    this.themeLabel = newTheme === 'dark' ? 'Light' : 'Dark';
+    this.themeLabel = newTheme === ThemeType.Dark ? 'Light' : 'Dark';
   }
 
-
+  get isAdmin(): boolean {
+    return this.authService.getRole() === UserRole.ADMIN;
+  }
 }

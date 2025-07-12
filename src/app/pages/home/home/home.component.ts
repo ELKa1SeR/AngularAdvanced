@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { UserRole } from '../../../core/enums/userrole.enum';
 
 @Component({
   selector: 'app-home',
@@ -8,24 +9,21 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  userRole = UserRole; // Accesible desde el HTML
 
   constructor(
-    private authService: AuthService, private router: Router) {}
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  login(role: string) {
-    if (role === 'ADMIN') {
-
-      this.authService.login('ADMIN');
-
-      this.router.navigate(['/login']);
-    } else if (role === 'GUEST') {
-
-      this.authService.login('GUEST');
-
-      this.router.navigate(['/characters']);
-    }
+login(role: UserRole): void {
+  if (role === UserRole.ADMIN) {
+    
+    this.router.navigate(['/login']);
+  } else if (role === UserRole.GUEST) {
+    this.authService.login(UserRole.GUEST);
+    this.router.navigate(['/characters']);
   }
-
-
+}
 }
 

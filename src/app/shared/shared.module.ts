@@ -13,6 +13,7 @@ import { SuccessDialogComponent } from './components/success-dialog/success-dial
 import { NoResultDialogComponent } from './components/no-result-dialog/no-result-dialog.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
@@ -26,12 +27,14 @@ import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.com
     NoResultDialogComponent,
     FooterComponent,
     AlertDialogComponent,
+
   ],
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
     RouterModule,
     MatDialogModule,
+    CoreModule,
   ],
   exports: [
     LoadingSpinnerComponent,

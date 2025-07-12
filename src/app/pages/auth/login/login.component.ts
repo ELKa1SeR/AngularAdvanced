@@ -4,6 +4,8 @@ import { AuthService } from '../../../core/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertDialogComponent } from '../../../shared/components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserRole } from '../../../core/enums/userrole.enum';
+import { AUTH_CREDENTIALS } from '../../../core/enums/credentials.enum';
 
 
 @Component({
@@ -28,14 +30,19 @@ export class LoginComponent {
 
   login(): void {
     const { username, password } = this.loginForm.value;
-    if (username === 'admin' && password === '1234') {
-      this.authService.login('ADMIN');
+
+    const isValidAdmin =
+      username === AUTH_CREDENTIALS.ADMIN_USERNAME &&
+      password === AUTH_CREDENTIALS.ADMIN_PASSWORD;
+
+    if (isValidAdmin) {
+      this.authService.login(UserRole.ADMIN);
       this.router.navigate(['/characters']);
     } else {
       this.dialog.open(AlertDialogComponent, {
         data: {
-          title: 'Login Failed',
-          message: 'Invalid credentials. Please try again.'
+          title: 'Login fallido',
+          message: 'Credenciales incorrectas. Inténtalo de nuevo.'
         }
       });
     }

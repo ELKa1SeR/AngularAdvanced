@@ -1,6 +1,6 @@
 <header class="app-header">
-  <div class="left">
-    <button  routerLink="/characters">Show Characters</button>
+ <div class="left">
+    <button [disabled]="!isAdmin" routerLink="/characters">Show Characters</button>
     <button  routerLink="/characters/create">Add Character</button>
   </div>
 

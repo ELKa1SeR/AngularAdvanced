@@ -2,12 +2,16 @@
 <section class="home">
   <h1>Welcome to the Rick & Morty App</h1>
   <div class="user-buttons">
-    <button (click)="login('ADMIN')">Login as ADMIN</button>
-    <button (click)="login('GUEST')">Log in as a Guest</button>
-
+    <button (click)="login(userRole.ADMIN)">Login as ADMIN</button>
+    <button (click)="login(userRole.GUEST)">Log in as a Guest</button>
   </div>
 
   <div class="image">
-    <img class="imagePrincipal" src="https://wallpapers.com/images/featured/imagenes-de-rick-and-morty-b3e2pq02sb2fuvy3.webp" alt="imagePrincipal">
+    <img
+      class="imagePrincipal"
+      src="https://wallpapers.com/images/featured/imagenes-de-rick-and-morty-b3e2pq02sb2fuvy3.webp"
+      alt="imagePrincipal"
+    >
   </div>
 </section>
+

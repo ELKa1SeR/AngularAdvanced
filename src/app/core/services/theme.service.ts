@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { isThemeType, ThemeType } from '../enums/theme.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -8,18 +9,20 @@ export class ThemeService {
 
   constructor() {
     const savedTheme = sessionStorage.getItem(this.themeKey);
-    if (savedTheme) {
+    if (savedTheme && isThemeType(savedTheme)) {
       document.body.classList.add(savedTheme);
     }
   }
 
-  getCurrentTheme(): 'light' | 'dark' {
-    return document.body.classList.contains('dark') ? 'dark' : 'light';
+  getCurrentTheme(): ThemeType {
+    return document.body.classList.contains(ThemeType.Dark)
+      ? ThemeType.Dark
+      : ThemeType.Light;
   }
 
-  toggleTheme(): 'light' | 'dark' {
+  toggleTheme(): ThemeType {
     const currentTheme = this.getCurrentTheme();
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const newTheme = currentTheme === ThemeType.Dark ? ThemeType.Light : ThemeType.Dark;
 
     document.body.classList.remove(currentTheme);
     document.body.classList.add(newTheme);
