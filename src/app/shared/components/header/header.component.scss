@@ -25,3 +25,48 @@
     cursor: pointer;
   }
 }
+
+@media (max-width: 640px) {
+  .app-header {
+    flex-direction: column-reverse;
+    padding: 1rem;
+    display: flex;
+
+    .left {
+        width: 80%;
+        gap: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        min-width: 142px;
+    }
+    .right {
+     margin-bottom: 15px;
+    }
+
+    .image {
+      width: 60px;
+      height: 60px;
+    }
+
+    button {
+      flex: 1 1 auto;
+     
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .app-header {
+    .left,
+    .right {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+
+    .image {
+      align-self: center;
+    }
+  }
+}
+

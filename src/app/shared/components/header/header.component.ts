@@ -9,7 +9,7 @@ import { ThemeService } from '../../../core/services/theme.service';
 })
 export class HeaderComponent {
   themeLabel = 'Dark';
-  authService: any;
+  
 
   constructor(
     private themeService: ThemeService,

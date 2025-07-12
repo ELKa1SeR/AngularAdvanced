@@ -4,8 +4,7 @@ import { CharacterListComponent } from './characters-list/characters-list.compon
 import { CharacterCreateComponent } from './character-create/character-create.component';
 import { CharacterDetailComponent } from './character-details/character-details.component';
 import { NotFoundComponent } from '../404notfound/not-found/not-found.component';
-import { HomeComponent } from '../home/home/home.component';
-import { LoginComponent } from '../auth/login/login.component';
+
 
 
 const routes: Routes = [

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AdminGuard } from './core/guards/admin.guard';  // Guard para proteger rutas de admin
+import { RouterModule, Routes } from '@angular/router'; // Guard para proteger rutas de admin
 import { HomeComponent } from './pages/home/home/home.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { NotFoundComponent } from './pages/404notfound/not-found/not-found.component';
@@ -20,7 +19,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)], 
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

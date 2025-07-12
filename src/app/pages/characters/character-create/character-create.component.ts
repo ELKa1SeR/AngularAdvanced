@@ -43,12 +43,25 @@ export class CharacterCreateComponent implements OnInit {
     });
   }
 
-  saveCharacter(): void {
-    if (this.form.valid) {
-      const character = this.form.value;
-      this.router.navigate(['/characters']);
-    }
+saveCharacter(): void {
+  if (this.form.valid) {
+    const formValue = this.form.value;
+
+    const newCharacter: Character = {
+      ...formValue,
+      id: Date.now(),
+      episode: formValue.episode.map((ep: number) => `https://rickandmortyapi.com/api/episode/${ep}`),
+      location: {
+        name: formValue.location
+      },
+      created: new Date(formValue.created).toISOString()
+    };
+
+    this.characterService.createCharacter(newCharacter);
+    this.router.navigate(['/characters']);
   }
+}
+
 
   cancel(): void {
     this.router.navigate(['/characters']);

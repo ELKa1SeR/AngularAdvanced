@@ -1,5 +1,4 @@
 export interface Character {
-location: any;
   id: number;
   name: string;
   status: string;
@@ -7,5 +6,9 @@ location: any;
   gender: string;
   image: string;
   created: string;
-  episode: string[]; 
+  episode: string[];
+  location: {
+    name: string;
+    url: string;
+  };
 }

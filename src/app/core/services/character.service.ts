@@ -1,4 +1,3 @@
-// character.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, forkJoin, map } from 'rxjs';
@@ -18,7 +17,7 @@ export class CharacterService {
 
   constructor(private http: HttpClient) {}
 
-  // 1. Obtener personajes de la API + locales
+
   getCharacters(filters: Filter = { name: '', status: '', species: '', gender: '', page: 1 }): Observable<ApiResponse<Character>> {
     let params = new HttpParams();
 
@@ -44,7 +43,7 @@ export class CharacterService {
   }
 
   getCharacterById(id: number): Observable<Character> {
-    // Buscar primero en localStorage
+
     const local = this.getLocalCharacters().find(c => c.id === id);
     if (local) {
       return new Observable<Character>(observer => {
@@ -56,7 +55,7 @@ export class CharacterService {
     return this.http.get<Character>(`${this.apiUrl}/${id}`);
   }
 
-  // 2. Crear personaje en localStorage
+
   createCharacter(character: Character): void {
     const customCharacters = this.getLocalCharacters();
 
@@ -66,14 +65,14 @@ export class CharacterService {
     localStorage.setItem(this.localKey, JSON.stringify(customCharacters));
   }
 
-  // 3. Eliminar personaje del localStorage
+
   deleteCharacter(id: number): void {
     const updated = this.getLocalCharacters().filter(char => char.id !== id);
     localStorage.setItem(this.localKey, JSON.stringify(updated));
   }
 
 
-  // 4. Obtener personajes guardados localmente
+
   private getLocalCharacters(): Character[] {
     const stored = localStorage.getItem(this.localKey);
     return stored ? JSON.parse(stored) : [];
@@ -85,19 +84,19 @@ export class CharacterService {
       char.id === id ? { ...char, ...character } : char
     );
 
-    // Guardamos los cambios en localStorage
+
     localStorage.setItem(this.localKey, JSON.stringify(updatedCharacter));
   }
 
-  getAllCharacters(): Observable<any[]> {
-    const requests: Observable<any>[] = [];
+ getAllCharacters(): Observable<ApiResponse<Character>[]> {
+  const requests: Observable<ApiResponse<Character>>[] = [];
 
-    for (let i = 1; i <= 42; i++) {
-      requests.push(this.http.get(`${this.apiUrl}/?page=${i}`));
-    }
-
-    return forkJoin(requests); // Devuelve un array con la respuesta de cada página
+  for (let i = 1; i <= 42; i++) {
+    requests.push(this.http.get<ApiResponse<Character>>(`${this.apiUrl}/?page=${i}`));
   }
+
+  return forkJoin(requests);
+}
 
 
   imageRandom(): Observable<Character> {

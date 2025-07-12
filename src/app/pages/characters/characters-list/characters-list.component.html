@@ -1,23 +1,19 @@
 <div class="search-container">
-  <input [(ngModel)]="filter" (input)="onSearchChange()" placeholder="Search for characters by name" />
+  <div class="filters">
+    <input [(ngModel)]="filter" (input)="onSearchChange()" placeholder="Search for characters by name" />
 
-  <select [(ngModel)]="statusFilter" (change)="onStatusChange()">
-    <option value="all">All</option>
-    <option value="alive">Alive</option>
-    <option value="dead">Dead</option>
-    <option value="unknown">Unknown</option>
-  </select>
+    <div class="status-buttons">
+      <button type="button" class="all" [ngClass]="{ active: statusFilter === 'all' }" (click)="setStatusFilter('all')">All</button>
+      <button type="button" class="alive" [ngClass]="{ active: statusFilter === 'alive' }" (click)="setStatusFilter('alive')">Alive</button>
+      <button type="button" class="dead" [ngClass]="{ active: statusFilter === 'dead' }" (click)="setStatusFilter('dead')">Dead</button>
+      <button type="button" class="unknown" [ngClass]="{ active: statusFilter === 'unknown' }" (click)="setStatusFilter('unknown')">Unknown</button>
+    </div>
 
-  <div class="status-colors">
-    <span class="alive" value="alive">Alive</span>
-    <span class="dead" value="dead">Dead</span>
-    <span class="unknown" value="unknown">Unknown</span>
+    <select name="episodes" id="episodes" [(ngModel)]="episodeFilter" (change)="onEpisodeChange()" multiple>
+      <option [value]="0">All Episodes</option>
+      <option *ngFor="let episode of [].constructor(51); let i = index" [value]="i+1">Episode {{ i + 1 }}</option>
+    </select>
   </div>
-
-  <select name="episodes" id="episodes" [(ngModel)]="episodeFilter" (change)="onEpisodeChange()">
-    <option value="0">All Episodes</option>
-    <option *ngFor="let episode of [].constructor(51); let i = index" [value]="i+1">Episode {{ i + 1 }}</option>
-  </select>
 </div>
 
 <div class="results-count">

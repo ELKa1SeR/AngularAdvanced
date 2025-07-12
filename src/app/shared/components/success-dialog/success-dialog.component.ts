@@ -13,6 +13,6 @@ export class SuccessDialogComponent {
   ) {}
 
   onClose(): void {
-    this.dialogRef.close(); // Cerrar el diálogo cuando se cierra
+    this.dialogRef.close(); 
   }
 }

@@ -23,6 +23,11 @@ mat-form-field {
   margin-top: 1rem;
 }
 
+.image-section{
+	align-self: anchor-center;
+}
+
+
 button[disabled] {
   background-color: #ccc !important;
   color: #666 !important;
@@ -32,4 +37,4 @@ button[disabled] {
 button[disabled]:hover {
   background-color: #ccc !important;
   color: #666 !important;
-} 
+}

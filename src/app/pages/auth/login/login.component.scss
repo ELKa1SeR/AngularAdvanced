@@ -16,8 +16,9 @@
 }
 
 .login-container .image {
-  width: 600px;
+  max-width: 600px;
   height: 400px;
+  width: 100%;
   background-image: url('https://wallpapers.com/images/high/rick-and-morty-pictures-f4ktdcy2fy77bjgt.webp');
   background-size: cover;
   background-position: center;

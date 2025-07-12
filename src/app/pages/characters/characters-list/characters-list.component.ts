@@ -78,27 +78,35 @@ export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, Aft
   }
 
   filterCharacters(): void {
-    this.filteredAllCharacters = this.allCharacters
-      .filter((character) => {
-        const nameMatch = character.name.toLowerCase().includes(this.filter.toLowerCase());
-        const statusMatch = this.statusFilter.toLowerCase() === 'all' || character.status.toLowerCase() === this.statusFilter.toLowerCase();
-        const episodeIds = character.episode
-          .filter((url: unknown): url is string => typeof url === 'string')
-          .map((url: string) => +url.split('/').pop()!);
-        const episodeMatch = this.episodeFilter.length === 0 || this.episodeFilter.includes(0) || this.episodeFilter.some((id) => episodeIds.includes(id));
-        return nameMatch && statusMatch && episodeMatch;
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
-
-    this.totalCount = this.filteredAllCharacters.length;
-    this.totalPages = Math.ceil(this.filteredAllCharacters.length / this.itemsPerPage);
-
-    if (this.totalCount === 0) {
-      this.dialog.open(NoResultDialogComponent);
-    }
-
-    this.paginationCharacter();
+  if (!Array.isArray(this.episodeFilter)) {
+    const parsed = Number(this.episodeFilter);
+    this.episodeFilter = isNaN(parsed) ? [] : [parsed];
   }
+
+  this.filteredAllCharacters = this.allCharacters
+    .filter((character) => {
+      const nameMatch = character.name.toLowerCase().includes(this.filter.toLowerCase());
+      const statusMatch = this.statusFilter.toLowerCase() === 'all' || character.status.toLowerCase() === this.statusFilter.toLowerCase();
+      const episodeIds = character.episode
+        .filter((url: unknown): url is string => typeof url === 'string')
+        .map((url: string) => +url.split('/').pop()!);
+      const episodeMatch =
+        this.episodeFilter.length === 0 ||
+        this.episodeFilter.includes(0) ||
+        this.episodeFilter.some((id) => episodeIds.includes(id));
+      return nameMatch && statusMatch && episodeMatch;
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  this.totalCount = this.filteredAllCharacters.length;
+  this.totalPages = Math.ceil(this.totalCount / this.itemsPerPage);
+
+  if (this.totalCount === 0) {
+    this.dialog.open(NoResultDialogComponent);
+  }
+
+  this.paginationCharacter();
+}
 
   paginationCharacter(): void {
     this.startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -145,6 +153,11 @@ export class CharacterListComponent implements OnInit, OnChanges, OnDestroy, Aft
   onFirstPage(): void {
     this.onPageChange(1);
   }
+
+  setStatusFilter(status: string): void {
+  this.statusFilter = status;
+  this.onStatusChange();
+}
 
   getStatusColor(status: string): string {
     switch (status) {

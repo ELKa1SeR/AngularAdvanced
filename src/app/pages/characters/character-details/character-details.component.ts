@@ -6,8 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Character } from '../../../interface/character.interface';
 import { CancelDialogComponent } from '../../../shared/components/cancel-dialog/cancel-dialog.component';
 import { SuccessDialogComponent } from '../../../shared/components/success-dialog/success-dialog.component';
-import { Location } from '../../../interface/location.interface';
-import { Episode } from '../../../interface/episode.interface';
+
 
 
 @Component({
